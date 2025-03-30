@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 using Tor.Currencylayer.Client.Enums;
+using Tor.Currencylayer.Client.Extensions;
 using Tor.Currencylayer.Client.Internal;
 using Tor.Currencylayer.Client.Internal.Models;
 using Tor.Currencylayer.Client.Models;
@@ -19,7 +20,40 @@ namespace Tor.Currencylayer.Client
             return httpResponse.IsSuccessStatusCode;
         }
 
-        private async Task<CurrencylayerResponse<TResponseModel>> GetCurrencylayerResponseAsync<TCurrencylayerModel, TResponseModel>(
+        public async Task<CurrencylayerResponse<LatestRatesResult>> GetLatestRatesAsync()
+            => await GetLatestRatesAsync(null, null);
+
+        public async Task<CurrencylayerResponse<LatestRatesResult>> GetLatestRatesAsync(string sourceCurrencyCode)
+            => await GetLatestRatesAsync(sourceCurrencyCode, null);
+
+        public async Task<CurrencylayerResponse<LatestRatesResult>> GetLatestRatesAsync(string[] destinationCurrencyCodes)
+            => await GetLatestRatesAsync(null, destinationCurrencyCodes);
+
+        public async Task<CurrencylayerResponse<LatestRatesResult>> GetLatestRatesAsync(string sourceCurrencyCode, string[] destinationCurrencyCodes)
+        {
+            var queryParameters = new Dictionary<string, string>();
+
+            if (!string.IsNullOrWhiteSpace(sourceCurrencyCode))
+            {
+                queryParameters.Add(
+                    Constants.Endpoints.LatestRates.Parameters.SourceCurrencyCode,
+                    sourceCurrencyCode);
+            }
+
+            if (destinationCurrencyCodes != null && destinationCurrencyCodes.Length > 0)
+            {
+                queryParameters.Add(
+                    Constants.Endpoints.LatestRates.Parameters.CurrencyCodes,
+                    destinationCurrencyCodes.ToCurrencylayerCurrencyCodes());
+            }
+
+            return await GetResponseAsync(
+                Constants.Endpoints.LatestRates.UrlSegment,
+                queryParameters,
+                Mappers.LatestRates);
+        }
+
+        private async Task<CurrencylayerResponse<TResponseModel>> GetResponseAsync<TCurrencylayerModel, TResponseModel>(
             string url,
             Dictionary<string, string> queryParameters,
             Func<TCurrencylayerModel, TResponseModel> mapper)

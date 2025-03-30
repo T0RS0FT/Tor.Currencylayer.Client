@@ -8,7 +8,7 @@ namespace Tor.Currencylayer.Client.Internal
         internal static readonly Func<LatestRatesModel, LatestRatesResult> LatestRates = x =>
             new LatestRatesResult()
             {
-                BaseCurrencyCode = x.Source,
+                SourceCurrencyCode = x.Source,
                 Timestamp = x.Timestamp,
                 Rates = x.Quotes?.Select(rate => new CurrencyRateResult()
                 {

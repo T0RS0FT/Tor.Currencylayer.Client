@@ -17,7 +17,7 @@ namespace Tor.Currencylayer.Client.Tests
             var result = Mappers.LatestRates(model);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(!string.IsNullOrWhiteSpace(result.BaseCurrencyCode));
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(result.SourceCurrencyCode));
             Assert.IsTrue(result.Timestamp > 0);
             Assert.IsNotNull(result.Rates);
             Assert.IsTrue(result.Rates.Count > 0);
