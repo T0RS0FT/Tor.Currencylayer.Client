@@ -31,8 +31,10 @@
 @if (hasData)
 {
     <ul>
-        <li>Source: @latestRates.SourceCurrencyCode</li>
-        <li>Timestamp: @latestRates.Timestamp</li>
+        <li>Terms: @response.Terms</li>
+        <li>Privacy: @response.Privacy</li>
+        <li>Source: @response.Result.SourceCurrencyCode</li>
+        <li>Timestamp: @response.Result.Timestamp</li>
     </ul>
 
     <table class="table">
@@ -43,7 +45,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var rate in latestRates.Rates)
+            @foreach (var rate in response.Result.Rates)
             {
                 <tr>
                     <td>@rate.CurrencyCode</td>

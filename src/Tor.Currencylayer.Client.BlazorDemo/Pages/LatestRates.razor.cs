@@ -12,7 +12,7 @@ namespace Tor.Currencylayer.Client.BlazorDemo.Pages
         private string baseCurrencyCode = string.Empty;
         private string destinationCurrencyCodes = string.Empty;
 
-        private LatestRatesResult latestRates;
+        private CurrencylayerResponse<LatestRatesResult> response;
         private string error = string.Empty;
         private bool hasError = false;
         private bool hasData = false;
@@ -21,7 +21,7 @@ namespace Tor.Currencylayer.Client.BlazorDemo.Pages
         {
             if (string.IsNullOrWhiteSpace(Constants.ApiKey))
             {
-                latestRates = null;
+                this.response = null;
                 hasData = false;
                 error = "API key required";
                 hasError = true;
@@ -37,8 +37,8 @@ namespace Tor.Currencylayer.Client.BlazorDemo.Pages
 
             var response = await CurrencylayerClient.GetLatestRatesAsync(baseCurrencyCode, destinationCodes);
 
-            latestRates = response.Result;
-            hasData = latestRates != null;
+            this.response = response;
+            hasData = this.response != null;
             error = response.Success ? string.Empty : response.Error.ToMessage();
             hasError = !string.IsNullOrWhiteSpace(error);
         }
