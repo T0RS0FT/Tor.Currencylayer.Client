@@ -3,7 +3,7 @@ using Tor.Currencylayer.Client.Internal;
 
 namespace Tor.Currencylayer.Client.DependencyInjection
 {
-    public static class CurrencylayerServiceCollectionExtensions
+    public static class ServiceCollectionExtensions
     {
         public static void AddCurrencylayer(this IServiceCollection services, Action<CurrencylayerOptions> currencylayerOptions)
         {
