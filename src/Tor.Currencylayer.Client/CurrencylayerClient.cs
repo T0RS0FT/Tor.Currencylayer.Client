@@ -15,7 +15,7 @@ namespace Tor.Currencylayer.Client
 
         public async Task<bool> HealthCheckAsync()
         {
-            var httpResponse = await httpClient.GetAsync(string.Empty);
+            var httpResponse = await httpClient.GetAsync(Constants.Endpoints.LatestRates.UrlSegment);
 
             return httpResponse.IsSuccessStatusCode;
         }
