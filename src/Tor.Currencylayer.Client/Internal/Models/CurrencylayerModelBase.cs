@@ -9,5 +9,11 @@ namespace Tor.Currencylayer.Client.Internal.Models
 
         [JsonInclude]
         internal ErrorModel Error { get; set; }
+
+        [JsonInclude]
+        internal string Terms { get; set; }
+
+        [JsonInclude]
+        internal string Privacy { get; set; }
     }
 }

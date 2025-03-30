@@ -60,7 +60,9 @@ namespace Tor.Currencylayer.Client
             {
                 Success = content.Success,
                 Error = content.Error?.ToCurrencylayerError(),
-                Result = content.Success ? mapper(content) : default
+                Result = content.Success ? mapper(content) : default,
+                Terms = content.Terms,
+                Privacy = content.Privacy
             };
         }
 
