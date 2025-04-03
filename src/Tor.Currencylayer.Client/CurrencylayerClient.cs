@@ -53,6 +53,42 @@ namespace Tor.Currencylayer.Client
                 Mappers.LatestRates);
         }
 
+        public async Task<CurrencylayerResponse<HistoricalRatesResult>> GetHistoricalRatesAsync(DateOnly date)
+            => await GetHistoricalRatesAsync(date, null, null);
+
+        public async Task<CurrencylayerResponse<HistoricalRatesResult>> GetHistoricalRatesAsync(DateOnly date, string sourceCurrencyCode)
+            => await GetHistoricalRatesAsync(date, sourceCurrencyCode, null);
+
+        public async Task<CurrencylayerResponse<HistoricalRatesResult>> GetHistoricalRatesAsync(DateOnly date, string[] destinationCurrencyCodes)
+            => await GetHistoricalRatesAsync(date, null, destinationCurrencyCodes);
+
+        public async Task<CurrencylayerResponse<HistoricalRatesResult>> GetHistoricalRatesAsync(DateOnly date, string sourceCurrencyCode, string[] destinationCurrencyCodes)
+        {
+            var queryParameters = new Dictionary<string, string>
+            {
+                { Constants.Endpoints.HistoricalRates.Parameters.Date, date.ToCurrencylayerFormat() }
+            };
+
+            if (!string.IsNullOrWhiteSpace(sourceCurrencyCode))
+            {
+                queryParameters.Add(
+                    Constants.Endpoints.HistoricalRates.Parameters.SourceCurrencyCode,
+                    sourceCurrencyCode);
+            }
+
+            if (destinationCurrencyCodes != null && destinationCurrencyCodes.Length > 0)
+            {
+                queryParameters.Add(
+                    Constants.Endpoints.HistoricalRates.Parameters.CurrencyCodes,
+                    destinationCurrencyCodes.ToCurrencylayerCurrencyCodes());
+            }
+
+            return await GetResponseAsync(
+                Constants.Endpoints.HistoricalRates.UrlSegment,
+                queryParameters,
+                Mappers.HistoricalRates);
+        }
+
         private async Task<CurrencylayerResponse<TResponseModel>> GetResponseAsync<TCurrencylayerModel, TResponseModel>(
             string url,
             Dictionary<string, string> queryParameters,

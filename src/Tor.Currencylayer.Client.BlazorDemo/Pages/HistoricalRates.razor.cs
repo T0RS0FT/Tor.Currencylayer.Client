@@ -4,15 +4,16 @@ using Tor.Currencylayer.Client.Models;
 
 namespace Tor.Currencylayer.Client.BlazorDemo.Pages
 {
-    public partial class LatestRates
+    public partial class HistoricalRates
     {
         [Inject]
         private ICurrencylayerClient CurrencylayerClient { get; set; }
 
+        private DateOnly date = DateOnly.FromDateTime(DateTime.Now.AddDays(-3));
         private string baseCurrencyCode = string.Empty;
         private string destinationCurrencyCodes = string.Empty;
 
-        private CurrencylayerResponse<LatestRatesResult> response;
+        private CurrencylayerResponse<HistoricalRatesResult> response;
         private string error = string.Empty;
         private bool hasError = false;
         private bool hasData = false;
@@ -35,7 +36,7 @@ namespace Tor.Currencylayer.Client.BlazorDemo.Pages
                 .Select(x => x.Trim())
                 .ToArray() ?? [];
 
-            var response = await CurrencylayerClient.GetLatestRatesAsync(baseCurrencyCode, destinationCodes);
+            var response = await CurrencylayerClient.GetHistoricalRatesAsync(date, baseCurrencyCode, destinationCodes);
 
             this.response = response;
             hasData = this.response.Result != null;

@@ -13,5 +13,13 @@ namespace Tor.Currencylayer.Client
         Task<CurrencylayerResponse<LatestRatesResult>> GetLatestRatesAsync(string[] destinationCurrencyCodes);
 
         Task<CurrencylayerResponse<LatestRatesResult>> GetLatestRatesAsync(string sourceCurrencyCode, string[] destinationCurrencyCodes);
+
+        Task<CurrencylayerResponse<HistoricalRatesResult>> GetHistoricalRatesAsync(DateOnly date);
+
+        Task<CurrencylayerResponse<HistoricalRatesResult>> GetHistoricalRatesAsync(DateOnly date, string sourceCurrencyCode);
+
+        Task<CurrencylayerResponse<HistoricalRatesResult>> GetHistoricalRatesAsync(DateOnly date, string[] destinationCurrencyCodes);
+
+        Task<CurrencylayerResponse<HistoricalRatesResult>> GetHistoricalRatesAsync(DateOnly date, string sourceCurrencyCode, string[] destinationCurrencyCodes);
     }
 }

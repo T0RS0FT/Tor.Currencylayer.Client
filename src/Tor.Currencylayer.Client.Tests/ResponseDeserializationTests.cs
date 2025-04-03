@@ -17,8 +17,30 @@ namespace Tor.Currencylayer.Client.Tests
             var result = Mappers.LatestRates(model);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(!string.IsNullOrWhiteSpace(result.SourceCurrencyCode));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.SourceCurrencyCode));
             Assert.IsTrue(result.Timestamp > 0);
+            Assert.IsNotNull(result.Rates);
+            Assert.IsTrue(result.Rates.Count > 0);
+            Assert.IsTrue(result.Rates.All(x => !string.IsNullOrWhiteSpace(x.CurrencyCode)));
+            Assert.IsTrue(result.Rates.All(x => x.ExchangeRate > 0));
+            Assert.IsTrue(result.Rates.GroupBy(x => x.CurrencyCode).All(x => x.Count() == 1));
+        }
+
+        [TestMethod]
+        public void HistoricalRatesDeserializeTest()
+        {
+            var json = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "json", "historical.json"));
+
+            var model = JsonSerializer.Deserialize<HistoricalRatesModel>(json, Constants.JsonSerializerOptions);
+
+            var result = Mappers.HistoricalRates(model);
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.SourceCurrencyCode));
+            Assert.IsTrue(result.Timestamp > 0);
+            Assert.IsTrue(result.Date > DateOnly.MinValue);
+            Assert.IsTrue(result.Date < DateOnly.MaxValue);
+            Assert.IsTrue(result.Historical);
             Assert.IsNotNull(result.Rates);
             Assert.IsTrue(result.Rates.Count > 0);
             Assert.IsTrue(result.Rates.All(x => !string.IsNullOrWhiteSpace(x.CurrencyCode)));
