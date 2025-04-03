@@ -120,3 +120,44 @@ public class CurrencylayerResponse<TResult>
    - Result: null
    - Terms: url / null
    - Privacy: url / null
+
+#### ICurrencylayerClient.GetLatestRatesAsync method
+
+Method parameters:
+
+| Parameter                 | Description                                              | Optional / Required |
+| --------------------------|----------------------------------------------------------|---------------------|
+| sourceCurrencyCode        | Three letter source currency code                        | Optional            |
+| destinationCurrencyCodes  | The codes of the expected result destination currencies  | Optional            |
+
+Response:
+
+| Property               | Description                       |
+| ---------------------- | ----------------------------------|
+| SourceCurrencyCode     | Three letter source currency code |
+| Timestamp              | The UNIX timestamp of the data    |
+| Rates                  | List of the exchange rates        |
+| Rates -> CurrencyCode  | Three letter currency code        |
+| Rates -> ExchangeRate  | Exchange rate                     |
+
+#### ICurrencylayerClient.GetHistoricalRatesAsync method
+
+Method parameters:
+
+| Parameter                 | Description                                                 | Optional / Required |
+| --------------------------|-------------------------------------------------------------|---------------------|
+| date                      | A date in the past for which historical rates are requested | Required            |
+| sourceCurrencyCode        | Three letter source currency code                           | Optional            |
+| destinationCurrencyCodes  | The codes of the expected result destination currencies     | Optional            |
+
+Response:
+
+| Property               | Description                       |
+| ---------------------- | ----------------------------------|
+| Historical             | **true** / **false**              |
+| SourceCurrencyCode     | Three letter source currency code |
+| Date                   | The date of the data              |
+| Timestamp              | The UNIX timestamp of the data    |
+| Rates                  | List of the exchange rates        |
+| Rates -> CurrencyCode  | Three letter currency code        |
+| Rates -> ExchangeRate  | Exchange rate                     |
