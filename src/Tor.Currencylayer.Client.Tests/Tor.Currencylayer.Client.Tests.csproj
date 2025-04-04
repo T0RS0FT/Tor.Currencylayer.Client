@@ -7,19 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Json\change.json" />
     <None Remove="Json\convert.json" />
+    <None Remove="Json\error.json" />
     <None Remove="Json\historical.json" />
     <None Remove="Json\live.json" />
+    <None Remove="Json\timeframe.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Json\change.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Json\convert.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Json\error.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Json\historical.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Json\live.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Json\timeframe.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

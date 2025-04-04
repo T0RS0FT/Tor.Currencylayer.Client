@@ -8,6 +8,22 @@ namespace Tor.Currencylayer.Client.Tests
     public class ResponseDeserializationTests
     {
         [TestMethod]
+        public void ErrorDeserializeTest()
+        {
+            var json = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "json", "error.json"));
+
+            var model = JsonSerializer.Deserialize<HistoricalRatesModel>(json, Constants.JsonSerializerOptions);
+
+            var error = model.Error?.ToCurrencylayerError();
+
+            Assert.IsNotNull(model);
+            Assert.IsFalse(model.Success);
+            Assert.IsNotNull(error);
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(error.Info));
+            Assert.IsTrue(error.Code > 0);
+        }
+
+        [TestMethod]
         public void LatestRatesDeserializeTest()
         {
             var json = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "json", "live.json"));
@@ -66,6 +82,57 @@ namespace Tor.Currencylayer.Client.Tests
             Assert.IsNotNull(result.Info);
             Assert.IsTrue(result.Info.Timestamp > 0);
             Assert.IsTrue(result.Info.Rate > 0);
+        }
+
+        [TestMethod]
+        public void TimeSeriesDeserializeTest()
+        {
+            var json = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "json", "timeframe.json"));
+
+            var model = JsonSerializer.Deserialize<TimeFrameModel>(json, Constants.JsonSerializerOptions);
+
+            var result = Mappers.TimeFrames(model);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.TimeFrame);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.SourceCurrencyCode));
+            Assert.IsTrue(result.StartDate > DateOnly.MinValue);
+            Assert.IsTrue(result.EndDate > DateOnly.MinValue);
+            Assert.IsNotNull(result.Items);
+            Assert.IsTrue(result.Items.Count > 0);
+            result.Items.ForEach(item =>
+            {
+                Assert.IsTrue(item.Date > DateOnly.MinValue);
+                Assert.IsNotNull(item.Rates);
+                Assert.IsTrue(item.Rates.Count > 0);
+                Assert.IsTrue(item.Rates.All(x => !string.IsNullOrWhiteSpace(x.CurrencyCode)));
+                Assert.IsTrue(item.Rates.All(x => x.ExchangeRate > 0));
+                Assert.IsTrue(item.Rates.GroupBy(x => x.CurrencyCode).All(x => x.Count() == 1));
+            });
+        }
+
+        [TestMethod]
+        public void ChangeDeserializeTest()
+        {
+            var json = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "json", "change.json"));
+
+            var model = JsonSerializer.Deserialize<ChangeModel>(json, Constants.JsonSerializerOptions);
+
+            var result = Mappers.Change(model);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Change);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.SourceCurrencyCode));
+            Assert.IsTrue(result.StartDate > DateOnly.MinValue);
+            Assert.IsTrue(result.EndDate > DateOnly.MinValue);
+            Assert.IsNotNull(result.Rates);
+            Assert.IsTrue(result.Rates.Count > 0);
+            Assert.IsTrue(result.Rates.All(rate => !string.IsNullOrWhiteSpace(rate.CurrencyCode)));
+            Assert.IsTrue(result.Rates.GroupBy(rate => rate.CurrencyCode).All(x => x.Count() == 1));
+            Assert.IsTrue(result.Rates.All(rate => rate.StartRate != 0));
+            Assert.IsTrue(result.Rates.All(rate => rate.EndRate != 0));
+            Assert.IsTrue(result.Rates.All(rate => rate.Change != 0));
+            Assert.IsTrue(result.Rates.All(rate => rate.ChangePercentage != 0));
         }
     }
 }

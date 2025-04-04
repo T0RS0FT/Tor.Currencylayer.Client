@@ -1,6 +1,8 @@
-﻿namespace Tor.Currencylayer.Client.Models
+﻿using Tor.Currencylayer.Client.Interface;
+
+namespace Tor.Currencylayer.Client.Models
 {
-    public class LatestRatesResult
+    public class LatestRatesResult : IRatesResult
     {
         public long Timestamp { get; set; }
 

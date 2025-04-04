@@ -138,6 +138,80 @@ namespace Tor.Currencylayer.Client
                 Mappers.Convert);
         }
 
+        public async Task<CurrencylayerResponse<TimeFrameResult>> GetTimeFrameAsync(DateOnly startDate, DateOnly endDate)
+            => await GetTimeFrameAsync(startDate, endDate, null, null);
+
+        public async Task<CurrencylayerResponse<TimeFrameResult>> GetTimeFrameAsync(DateOnly startDate, DateOnly endDate, string sourceCurrencyCode)
+            => await GetTimeFrameAsync(startDate, endDate, sourceCurrencyCode, null);
+
+        public async Task<CurrencylayerResponse<TimeFrameResult>> GetTimeFrameAsync(DateOnly startDate, DateOnly endDate, string[] destinationCurrencyCodes)
+            => await GetTimeFrameAsync(startDate, endDate, null, destinationCurrencyCodes);
+
+        public async Task<CurrencylayerResponse<TimeFrameResult>> GetTimeFrameAsync(DateOnly startDate, DateOnly endDate, string sourceCurrencyCode, string[] destinationCurrencyCodes)
+        {
+            var queryParameters = new Dictionary<string, string>
+            {
+                { Constants.Endpoints.TimeFrame.Parameters.StartDate, startDate.ToCurrencylayerFormat() },
+                { Constants.Endpoints.TimeFrame.Parameters.EndDate, endDate.ToCurrencylayerFormat() },
+            };
+
+            if (!string.IsNullOrWhiteSpace(sourceCurrencyCode))
+            {
+                queryParameters.Add(
+                    Constants.Endpoints.TimeFrame.Parameters.SourceCurrencyCode,
+                    sourceCurrencyCode);
+            }
+
+            if (destinationCurrencyCodes != null && destinationCurrencyCodes.Length > 0)
+            {
+                queryParameters.Add(
+                    Constants.Endpoints.TimeFrame.Parameters.CurrencyCodes,
+                    destinationCurrencyCodes.ToCurrencylayerCurrencyCodes());
+            }
+
+            return await GetResponseAsync(
+                Constants.Endpoints.TimeFrame.UrlSegment,
+                queryParameters,
+                Mappers.TimeFrames);
+        }
+
+        public async Task<CurrencylayerResponse<ChangeResult>> GetChangeAsync(DateOnly startDate, DateOnly endDate)
+            => await GetChangeAsync(startDate, endDate, null, null);
+
+        public async Task<CurrencylayerResponse<ChangeResult>> GetChangeAsync(DateOnly startDate, DateOnly endDate, string sourceCurrencyCode)
+            => await GetChangeAsync(startDate, endDate, sourceCurrencyCode, null);
+
+        public async Task<CurrencylayerResponse<ChangeResult>> GetChangeAsync(DateOnly startDate, DateOnly endDate, string[] destinationCurrencyCodes)
+            => await GetChangeAsync(startDate, endDate, null, destinationCurrencyCodes);
+
+        public async Task<CurrencylayerResponse<ChangeResult>> GetChangeAsync(DateOnly startDate, DateOnly endDate, string sourceCurrencyCode, string[] destinationCurrencyCodes)
+        {
+            var queryParameters = new Dictionary<string, string>
+            {
+                { Constants.Endpoints.Change.Parameters.StartDate, startDate.ToCurrencylayerFormat() },
+                { Constants.Endpoints.Change.Parameters.EndDate, endDate.ToCurrencylayerFormat() },
+            };
+
+            if (!string.IsNullOrWhiteSpace(sourceCurrencyCode))
+            {
+                queryParameters.Add(
+                    Constants.Endpoints.Change.Parameters.SourceCurrencyCode,
+                    sourceCurrencyCode);
+            }
+
+            if (destinationCurrencyCodes != null && destinationCurrencyCodes.Length > 0)
+            {
+                queryParameters.Add(
+                    Constants.Endpoints.Change.Parameters.CurrencyCodes,
+                    destinationCurrencyCodes.ToCurrencylayerCurrencyCodes());
+            }
+
+            return await GetResponseAsync(
+                Constants.Endpoints.Change.UrlSegment,
+                queryParameters,
+                Mappers.Change);
+        }
+
         private async Task<CurrencylayerResponse<TResponseModel>> GetResponseAsync<TCurrencylayerModel, TResponseModel>(
             string url,
             Dictionary<string, string> queryParameters,

@@ -1,6 +1,8 @@
-﻿namespace Tor.Currencylayer.Client.Models
+﻿using Tor.Currencylayer.Client.Interface;
+
+namespace Tor.Currencylayer.Client.Models
 {
-    public class HistoricalRatesResult
+    public class HistoricalRatesResult : IRatesResult
     {
         public bool Historical { get; set; }
 

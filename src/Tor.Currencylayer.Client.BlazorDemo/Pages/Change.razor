@@ -1,16 +1,27 @@
-﻿@page "/historicalrates"
+﻿@page "/change"
 
-<h1>Historical rates</h1>
+<h1>Change</h1>
 
 <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-sm">Date</span>
+        <span class="input-group-text" id="inputGroup-sizing-sm">Start Date</span>
     </div>
     <input type="date"
            class="form-control"
            aria-label="Small"
            aria-describedby="inputGroup-sizing-sm"
-           @bind="date">
+           @bind="startDate">
+</div>
+
+<div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-sm">End Date</span>
+    </div>
+    <input type="date"
+           class="form-control"
+           aria-label="Small"
+           aria-describedby="inputGroup-sizing-sm"
+           @bind="endDate">
 </div>
 
 <div class="input-group input-group-sm mb-3">
@@ -42,19 +53,20 @@
 @if (hasData)
 {
     <ul>
-        <li>Terms: @response.Terms</li>
-        <li>Privacy: @response.Privacy</li>
-        <li>Source: @response.Result.SourceCurrencyCode</li>
-        <li>Timestamp: @response.Result.Timestamp</li>
-        <li>Date: @response.Result.Date</li>
-        <li>Historical: @response.Result.Historical</li>
+        <li>Start Date: @response.Result.StartDate</li>
+        <li>End Date: @response.Result.EndDate</li>
+        <li>Source Currency Code: @response.Result.SourceCurrencyCode</li>
+        <li>Change: @response.Result.Change</li>
     </ul>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Currency code</th>
-                <th>Exchange rate</th>
+                <th>Start rate</th>
+                <th>End rate</th>
+                <th>Change</th>
+                <th>Change percentage</th>
             </tr>
         </thead>
         <tbody>
@@ -62,7 +74,10 @@
             {
                 <tr>
                     <td>@rate.CurrencyCode</td>
-                    <td>@rate.ExchangeRate</td>
+                    <td>@rate.StartRate</td>
+                    <td>@rate.EndRate</td>
+                    <td>@rate.Change</td>
+                    <td>@rate.ChangePercentage</td>
                 </tr>
             }
         </tbody>

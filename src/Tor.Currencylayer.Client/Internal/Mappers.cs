@@ -53,5 +53,40 @@ namespace Tor.Currencylayer.Client.Internal
                         Rate = x.Info.Quote
                     }
             };
+
+        internal static readonly Func<TimeFrameModel, TimeFrameResult> TimeFrames = x =>
+            new TimeFrameResult()
+            {
+                TimeFrame = x.Timeframe,
+                SourceCurrencyCode = x.Source,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                Items = x.Quotes?.Select(item => new TimeFrameItemResult()
+                {
+                    Date = item.Key,
+                    Rates = item.Value?.Select(rate => new CurrencyRateResult()
+                    {
+                        CurrencyCode = rate.Key[3..],
+                        ExchangeRate = rate.Value
+                    }).ToList() ?? []
+                }).ToList() ?? []
+            };
+
+        internal static readonly Func<ChangeModel, ChangeResult> Change = x =>
+            new ChangeResult()
+            {
+                SourceCurrencyCode = x.Source,
+                Change = x.Change,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                Rates = x.Quotes?.Select(item => new ChangeRateResult()
+                {
+                    CurrencyCode = item.Key[3..],
+                    Change = item.Value.Change,
+                    ChangePercentage = item.Value.ChangePct,
+                    StartRate = item.Value.StartRate,
+                    EndRate = item.Value.EndRate
+                }).ToList() ?? []
+            };
     }
 }

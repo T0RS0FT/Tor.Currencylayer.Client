@@ -25,5 +25,22 @@ namespace Tor.Currencylayer.Client
         Task<CurrencylayerResponse<ConvertResult>> ConvertAsync(string sourceCurrencyCode, string destinationCurrencyCode, decimal amount);
 
         Task<CurrencylayerResponse<ConvertResult>> ConvertAsync(string sourceCurrencyCode, string destinationCurrencyCode, decimal amount, DateOnly? date);
+
+        Task<CurrencylayerResponse<TimeFrameResult>> GetTimeFrameAsync(DateOnly startDate, DateOnly endDate);
+
+        Task<CurrencylayerResponse<TimeFrameResult>> GetTimeFrameAsync(DateOnly startDate, DateOnly endDate, string sourceCurrencyCode);
+
+        Task<CurrencylayerResponse<TimeFrameResult>> GetTimeFrameAsync(DateOnly startDate, DateOnly endDate, string[] destinationCurrencyCodes);
+
+        Task<CurrencylayerResponse<TimeFrameResult>> GetTimeFrameAsync(DateOnly startDate, DateOnly endDate, string sourceCurrencyCode, string[] destinationCurrencyCodes);
+
+        Task<CurrencylayerResponse<ChangeResult>> GetChangeAsync(DateOnly startDate, DateOnly endDate);
+
+        Task<CurrencylayerResponse<ChangeResult>> GetChangeAsync(DateOnly startDate, DateOnly endDate, string sourceCurrencyCode);
+
+        Task<CurrencylayerResponse<ChangeResult>> GetChangeAsync(DateOnly startDate, DateOnly endDate, string[] destinationCurrencyCodes);
+
+        Task<CurrencylayerResponse<ChangeResult>> GetChangeAsync(DateOnly startDate, DateOnly endDate, string sourceCurrencyCode, string[] destinationCurrencyCodes);
+
     }
 }

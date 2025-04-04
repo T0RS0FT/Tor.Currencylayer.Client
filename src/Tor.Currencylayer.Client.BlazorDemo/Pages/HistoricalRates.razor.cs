@@ -10,7 +10,7 @@ namespace Tor.Currencylayer.Client.BlazorDemo.Pages
         private ICurrencylayerClient CurrencylayerClient { get; set; }
 
         private DateOnly date = DateOnly.FromDateTime(DateTime.Now.AddDays(-3));
-        private string baseCurrencyCode = string.Empty;
+        private string sourceCurrencyCode = string.Empty;
         private string destinationCurrencyCodes = string.Empty;
 
         private CurrencylayerResponse<HistoricalRatesResult> response;
@@ -36,7 +36,7 @@ namespace Tor.Currencylayer.Client.BlazorDemo.Pages
                 .Select(x => x.Trim())
                 .ToArray() ?? [];
 
-            var response = await CurrencylayerClient.GetHistoricalRatesAsync(date, baseCurrencyCode, destinationCodes);
+            var response = await CurrencylayerClient.GetHistoricalRatesAsync(date, sourceCurrencyCode, destinationCodes);
 
             this.response = response;
             hasData = this.response.Result != null;

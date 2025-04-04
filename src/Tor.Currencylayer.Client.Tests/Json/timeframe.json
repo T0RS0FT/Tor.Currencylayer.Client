@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "terms": "https://currencylayer.com/terms",
+  "privacy": "https://currencylayer.com/privacy",
+  "timeframe": true,
+  "start_date": "2025-04-01",
+  "end_date": "2025-04-04",
+  "source": "USD",
+  "quotes": {
+    "2025-04-01": {
+      "USDEUR": 0.926325,
+      "USDGBP": 0.773835,
+      "USDHUF": 372.298884
+    },
+    "2025-04-02": {
+      "USDEUR": 0.91712,
+      "USDGBP": 0.766475,
+      "USDHUF": 372.296894
+    },
+    "2025-04-03": {
+      "USDEUR": 0.905525,
+      "USDGBP": 0.76406,
+      "USDHUF": 365.084971
+    },
+    "2025-04-04": {
+      "USDEUR": 0.905405,
+      "USDGBP": 0.768597,
+      "USDHUF": 365.736505
+    }
+  }
+}
