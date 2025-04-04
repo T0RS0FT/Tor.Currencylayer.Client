@@ -1,5 +1,7 @@
 # Tor.Currencylayer.Client
 
+[![](https://img.shields.io/nuget/dt/Tor.Currencylayer.Client)](#) [![](https://img.shields.io/nuget/v/Tor.Currencylayer.Client)](https://www.nuget.org/packages/Tor.Currencylayer.Client)
+
 A C# client library for [Currencylayer.com](https://currencylayer.com) API with dependency injection support.
 
 ## Installation
