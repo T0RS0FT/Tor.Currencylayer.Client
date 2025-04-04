@@ -2,7 +2,11 @@
 {
     public class ConvertResult
     {
+        public bool Historical { get; set; }
+
         public decimal Result { get; set; }
+
+        public DateOnly? Date { get; set; }
 
         public ConvertQueryResult Query { get; set; }
 

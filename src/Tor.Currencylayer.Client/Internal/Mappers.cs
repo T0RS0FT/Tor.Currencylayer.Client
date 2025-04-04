@@ -34,6 +34,8 @@ namespace Tor.Currencylayer.Client.Internal
         internal static readonly Func<ConvertModel, ConvertResult> Convert = x =>
             new ConvertResult()
             {
+                Historical = x.Historical,
+                Date = x.Date,
                 Result = x.Result,
                 Query = x.Query == null
                     ? null
