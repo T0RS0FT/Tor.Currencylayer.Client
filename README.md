@@ -189,3 +189,53 @@ Response:
 | Info                               | Exchange info                                 |
 | Info -> Timestamp                  | The UNIX timestamp of the exchange rate       |
 | Info -> Rate                       | Exchange rate                                 |
+
+#### ICurrencylayerClient.GetTimeFrameAsync method
+
+Method parameters:
+
+| Parameter                 | Description                                                 | Optional / Required |
+| --------------------------|-------------------------------------------------------------|---------------------|
+| startDate                 | Start date                                                  | Required            |
+| endDate                   | End date                                                    | Required            |
+| baseCurrencyCode          | Three letter base currency code                             | Optional            |
+| destinationCurrencyCodes  | The codes of the expected result destination currencies     | Optional            |
+
+Response:
+
+| Property                           | Description                             |
+| ---------------------------------- | ----------------------------------------|
+| TimeFrame                          | **true** / **false**                    |
+| StartDate                          | The start date                          |
+| EndDate                            | The end date                            |
+| SourceCurrencyCode                 | Three letter source currency code       |
+| Items                              | Exchange rate list                      |
+| Items -> Date                      | Date of the exchanges                   |
+| Items -> Rates -> CurrencyCode     | Three letter currency code              |
+| Items -> Rates -> ExchangeRate     | Exchange rate                           |
+
+#### ICurrencylayerClient.GetChangeAsync method
+
+Method parameters:
+
+| Parameter                 | Description                                                 | Optional / Required |
+| --------------------------|-------------------------------------------------------------|---------------------|
+| startDate                 | Start date                                                  | Required            |
+| endDate                   | End date                                                    | Required            |
+| sourceCurrencyCode        | Three letter source currency code                           | Optional            |
+| destinationCurrencyCodes  | The codes of the expected result destination currencies     | Optional            |
+
+Response:
+
+| Property                           | Description                                                                       |
+| ---------------------------------- | ----------------------------------------------------------------------------------|
+| Change                             | **true** / **false**                                                              |
+| StartDate                          | The start date                                                                    |
+| EndDate                            | The end date                                                                      |
+| SourceCurrencyCode                 | Three letter source currency code                                                 |
+| Rates                              | Exchange fluctuation list                                                         |
+| Rates -> CurrencyCode              | Three letter currency code                                                        |
+| Rates -> StartRate                 | Start date                                                                        |
+| Rates -> EndRate                   | End date                                                                          |
+| Rates -> Change                    | The change of the given currency rate between your start and end date             |
+| Rates -> ChangePercentage          | The percentage change of the given currency rate between your start and end date  |
