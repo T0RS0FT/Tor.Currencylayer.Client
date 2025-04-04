@@ -161,3 +161,27 @@ Response:
 | Rates                  | List of the exchange rates        |
 | Rates -> CurrencyCode  | Three letter currency code        |
 | Rates -> ExchangeRate  | Exchange rate                     |
+
+#### ICurrencylayerClient.ConvertAsync method
+
+Method parameters:
+
+| Parameter                 | Description                                                 | Optional / Required |
+| --------------------------|-------------------------------------------------------------|---------------------|
+| sourceCurrencyCode        | Three letter source currency code                           | Required            |
+| destinationCurrencyCode   | Three letter destination currency code                      | Required            |
+| amount                    | Amount to exchange                                          | Required            |
+| date                      | A date in the past for which exchange is requested          | Optional            |
+
+Response:
+
+| Property                           | Description                             |
+| ---------------------------------- | ----------------------------------------|
+| Result                             | The converted amount                    |
+| Query                              | Request query info                      |
+| Query -> SourceCurrencyCode        | Three letter source currency code       |
+| Query -> DestinationCurrencyCode   | Three letter destination currency code  |
+| Query -> Amount                    | Amount to exchange                      |
+| Info                               | Exchange info                           |
+| Info -> Timestamp                  | The UNIX timestamp of the exchange rate |
+| Info -> Rate                       | Exchange rate                           |
