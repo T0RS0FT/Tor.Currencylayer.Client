@@ -47,5 +47,25 @@ namespace Tor.Currencylayer.Client.Tests
             Assert.IsTrue(result.Rates.All(x => x.ExchangeRate > 0));
             Assert.IsTrue(result.Rates.GroupBy(x => x.CurrencyCode).All(x => x.Count() == 1));
         }
+
+        [TestMethod]
+        public void ConvertDeserializeTest()
+        {
+            var json = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "json", "convert.json"));
+
+            var model = JsonSerializer.Deserialize<ConvertModel>(json, Constants.JsonSerializerOptions);
+
+            var result = Mappers.Convert(model);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Result > 0);
+            Assert.IsNotNull(result.Query);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.Query.SourceCurrencyCode));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.Query.DestinationCurrencyCode));
+            Assert.IsTrue(result.Query.Amount > 0);
+            Assert.IsNotNull(result.Info);
+            Assert.IsTrue(result.Info.Timestamp > 0);
+            Assert.IsTrue(result.Info.Rate > 0);
+        }
     }
 }

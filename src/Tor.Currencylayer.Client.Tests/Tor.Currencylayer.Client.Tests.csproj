@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Json\convert.json" />
     <None Remove="Json\historical.json" />
     <None Remove="Json\live.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Json\convert.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Json\historical.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

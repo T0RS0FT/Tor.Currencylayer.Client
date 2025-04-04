@@ -30,5 +30,26 @@ namespace Tor.Currencylayer.Client.Internal
                     ExchangeRate = rate.Value
                 }).ToList() ?? []
             };
+
+        internal static readonly Func<ConvertModel, ConvertResult> Convert = x =>
+            new ConvertResult()
+            {
+                Result = x.Result,
+                Query = x.Query == null
+                    ? null
+                    : new ConvertQueryResult()
+                    {
+                        SourceCurrencyCode = x.Query.From,
+                        DestinationCurrencyCode = x.Query.To,
+                        Amount = x.Query.Amount
+                    },
+                Info = x.Info == null
+                    ? null
+                    : new ConvertInfoResult()
+                    {
+                        Timestamp = x.Info.Timestamp,
+                        Rate = x.Info.Quote
+                    }
+            };
     }
 }

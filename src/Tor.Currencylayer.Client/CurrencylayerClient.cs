@@ -89,6 +89,55 @@ namespace Tor.Currencylayer.Client
                 Mappers.HistoricalRates);
         }
 
+        public async Task<CurrencylayerResponse<ConvertResult>> ConvertAsync(string sourceCurrencyCode, string destinationCurrencyCode, decimal amount)
+            => await ConvertAsync(sourceCurrencyCode, destinationCurrencyCode, amount, null);
+
+        public async Task<CurrencylayerResponse<ConvertResult>> ConvertAsync(string sourceCurrencyCode, string destinationCurrencyCode, decimal amount, DateOnly? date)
+        {
+            switch (options.OtherErrorHandlingMode)
+            {
+                case ErrorHandlingMode.ReturnsError:
+                    if (string.IsNullOrWhiteSpace(sourceCurrencyCode) || string.IsNullOrWhiteSpace(destinationCurrencyCode))
+                    {
+                        return new CurrencylayerResponse<ConvertResult>()
+                        {
+                            Result = default,
+                            Success = false,
+                            Error = new CurrencylayerError()
+                            {
+                                ErrorType = ErrorType.Other,
+                                Info = string.IsNullOrWhiteSpace(sourceCurrencyCode)
+                                    ? Constants.Messages.SourceCurrencyCodeNotFound
+                                    : Constants.Messages.DestinationCurrencyCodeNotFound,
+                                Code = 1
+                            }
+                        };
+                    }
+                    break;
+                case ErrorHandlingMode.ThrowsException:
+                    ArgumentException.ThrowIfNullOrWhiteSpace(sourceCurrencyCode);
+                    ArgumentException.ThrowIfNullOrWhiteSpace(destinationCurrencyCode);
+                    break;
+            }
+
+            var queryParameters = new Dictionary<string, string>
+            {
+                { Constants.Endpoints.Convert.Parameters.SourceCurrencyCode, sourceCurrencyCode },
+                { Constants.Endpoints.Convert.Parameters.DestinationCurrencyCode, destinationCurrencyCode },
+                { Constants.Endpoints.Convert.Parameters.Amount, amount.ToString("#.#") }
+            };
+
+            if (date != null)
+            {
+                queryParameters.Add(Constants.Endpoints.Convert.Parameters.Date, date.Value.ToCurrencylayerFormat());
+            }
+
+            return await GetResponseAsync(
+                Constants.Endpoints.Convert.UrlSegment,
+                queryParameters,
+                Mappers.Convert);
+        }
+
         private async Task<CurrencylayerResponse<TResponseModel>> GetResponseAsync<TCurrencylayerModel, TResponseModel>(
             string url,
             Dictionary<string, string> queryParameters,
