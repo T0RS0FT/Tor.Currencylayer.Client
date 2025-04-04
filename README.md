@@ -175,13 +175,15 @@ Method parameters:
 
 Response:
 
-| Property                           | Description                             |
-| ---------------------------------- | ----------------------------------------|
-| Result                             | The converted amount                    |
-| Query                              | Request query info                      |
-| Query -> SourceCurrencyCode        | Three letter source currency code       |
-| Query -> DestinationCurrencyCode   | Three letter destination currency code  |
-| Query -> Amount                    | Amount to exchange                      |
-| Info                               | Exchange info                           |
-| Info -> Timestamp                  | The UNIX timestamp of the exchange rate |
-| Info -> Rate                       | Exchange rate                           |
+| Property                           | Description                                   |
+| ---------------------------------- | ----------------------------------------------|
+| Result                             | The converted amount                          |
+| Historical                         | **true** / **false**                          |
+| Date                               | The date of the data (null if not historical) |
+| Query                              | Request query info                            |
+| Query -> SourceCurrencyCode        | Three letter source currency code             |
+| Query -> DestinationCurrencyCode   | Three letter destination currency code        |
+| Query -> Amount                    | Amount to exchange                            |
+| Info                               | Exchange info                                 |
+| Info -> Timestamp                  | The UNIX timestamp of the exchange rate       |
+| Info -> Rate                       | Exchange rate                                 |
